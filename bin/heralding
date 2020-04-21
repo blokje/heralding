@@ -49,16 +49,17 @@ def setup_logging(logfile, verbose):
   console_log.setLevel(loglevel)
   root_logger.addHandler(console_log)
 
-  if logfile in ('/dev/log', '/dev/syslog', '/var/run/syslog', '/var/run/log'):
-    file_log = logging.handlers.SysLogHandler(
-        address=logfile, facility='local1')
-    syslog_formatter = logging.Formatter('heralding[%(process)d]: %(message)s')
-    file_log.setFormatter(syslog_formatter)
-  else:
-    file_log = logging.FileHandler(logfile)
-    file_log.setFormatter(default_formatter)
-  file_log.setLevel(loglevel)
-  root_logger.addHandler(file_log)
+  if logfile not in ('/dev/stdout', '/dev/stderr'):
+    if logfile in ('/dev/log', '/dev/syslog', '/var/run/syslog', '/var/run/log'):
+        file_log = logging.handlers.SysLogHandler(
+            address=logfile, facility='local1')
+        syslog_formatter = logging.Formatter('heralding[%(process)d]: %(message)s')
+        file_log.setFormatter(syslog_formatter)
+    else:
+        file_log = logging.FileHandler(logfile)
+        file_log.setFormatter(default_formatter)
+    file_log.setLevel(loglevel)
+    root_logger.addHandler(file_log)
 
   # ensure the filer is applied to all handlers
   for handler in root_logger.handlers:
