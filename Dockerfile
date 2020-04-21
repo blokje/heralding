@@ -10,5 +10,5 @@ RUN cd /usr/src; \
 
 VOLUME [ "/var/heralding" ]
 WORKDIR /var/heralding
-EXPOSE 21 23 110 995 5432 142 993 22 80 443 25 5900 1000 3306 3389
+EXPOSE 21 23 110 995 5432 143 993 22 80 443 25 5900 1000 3306 3389
 ENTRYPOINT [ "/usr/local/bin/heralding", "--config=/etc/heralding.yml", "--logfile=/dev/stdout" ]
